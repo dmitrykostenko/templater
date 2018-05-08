@@ -1,18 +1,20 @@
 var Templater = {
 
+    tags: {},
+
+    addTag: function (tag, template) {
+        this.tags[tag] = template;
+    },
+
     run: function () {
-        var elements = document.getElementsByTagName('bootstrap_button');
-        var length =  elements.length;
-
-        for(var i=0; i<length; i++) {
-
-            var newTag = document.createElement('button');
-
-            newTag.className = "btn btn-default";
-            newTag.setAttribute('type', 'Submit');
-            newTag.innerHTML = 'Some Text';
-
-            elements[0].parentNode.replaceChild(newTag, elements[0]);
+        for (var tagName in this.tags) {
+            var customTags = document.getElementsByTagName(tagName);
+            var length = customTags.length;
+            for (var i = 0; i < length; i++) {
+                var customTag = customTags[0];
+                customTag.outerHTML = this.tags[tagName];
+            }
         }
-    }
+    },
+
 }
