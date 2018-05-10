@@ -1,5 +1,4 @@
 var Templater = {
-
     tags: {},
 
     addTag: function (tag, template) {
@@ -7,14 +6,22 @@ var Templater = {
     },
 
     run: function () {
-        for (var tagName in this.tags) {
-            var customTags = document.getElementsByTagName(tagName);
-            var length = customTags.length;
-            for (var i = 0; i < length; i++) {
-                var customTag = customTags[0];
-                customTag.outerHTML = this.tags[tagName];
-            }
+        for (let tagName in this.tags) {
+            let customTags = Array.from(document.getElementsByTagName(tagName));
+            customTags.forEach( (item) => {
+                item.outerHTML = this.render(this.tags[tagName], item);
+        });
         }
     },
 
-}
+    render: function (template, element) {
+        let result = template.replace(/{{([a-zA-Z]+)}}/g, function (attr, template) {
+            if (template === 'html') {
+                return element.innerHTML;
+            } else {
+                return element.getAttribute(template);
+            }
+        });
+        return result;
+    }
+};
