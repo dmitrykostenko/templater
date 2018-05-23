@@ -1,3 +1,15 @@
+jQuery(function() {
+    initTemplate();
+})
+
+function initTemplate() {
+    $('#templates').templater({
+        tagsTemplate: {
+            'panel': '<div class="panel"><div class="panel-heading">{{heading}}</div><div class="panel-body">{{html}}</div></div>'
+        }
+    });
+}
+
 ;(function($) {
     function Templater(opt) {
         this.options = opt;
@@ -7,19 +19,25 @@
     Templater.prototype = {
         run: function() {
             var self = this;
+            $.each(this.options.tagsTemplate, function(tag, tagsTemplate) {
+                function replacePanel(container) {
+                    var tags = container.find('>' + tag);
 
-            $.each(this.options.tags, function(tagName) {
-                self.holder.find(tagName).each(function() {
-                    var element = $(this);
-                    element.replaceWith(self.render(self.options.tags[tagName], element))
-                });
+                    tags.each(function(){
+                        console.log(1)
+                        var tagToReplace = $(this);
+                        console.log(tagToReplace)
+                        replacePanel(tagToReplace)
+                        tagToReplace.replaceWith(self.render(tagsTemplate, tagToReplace));
+                    })
+                }
+                replacePanel(self.holder)
             })
         },
         render: function (template, element) {
             let result = template.replace(/{{([a-zA-Z]+)}}/g, function (attr, template) {
                 if (template === 'html') {
-                    //return element.html();
-                    return element.innerHTML = 'Some Text';
+                    return element.html();
                 } else {
                     return element.attr(template);
                 }
