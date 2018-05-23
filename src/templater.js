@@ -22,9 +22,7 @@ function initTemplate() {
             $.each(this.options.tagsTemplate, function(tag, tagsTemplate) {
                 function replacePanel(container) {
                     var tags = container.find('>' + tag);
-
                     tags.each(function(){
-                        console.log(1)
                         var tagToReplace = $(this);
                         console.log(tagToReplace)
                         replacePanel(tagToReplace)
