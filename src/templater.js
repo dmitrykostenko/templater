@@ -33,7 +33,7 @@ function initTemplate() {
             })
         },
         render: function (template, element) {
-            let result = template.replace(/{{([a-zA-Z]+)}}/g, function (attr, template) {
+            var result = template.replace(/{{([a-zA-Z]+)}}/g, function (attr, template) {
                 if (template === 'html') {
                     return element.html();
                 } else {
