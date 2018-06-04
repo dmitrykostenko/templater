@@ -1,6 +1,6 @@
-jQuery(function() {
+$(function() {
     initTemplate();
-})
+});
 
 function initTemplate() {
     $('#templates').templater({
@@ -18,22 +18,22 @@ function initTemplate() {
     }
     Templater.prototype = {
         run: function() {
-            var self = this;
+            let self = this;
             $.each(this.options.tagsTemplate, function(tag, tagsTemplate) {
                 function replacePanel(container) {
-                    var tags = container.find('>' + tag);
+                    let tags = container.find('>' + tag);
                     tags.each(function(){
-                        var tagToReplace = $(this);
-                        console.log(tagToReplace)
-                        replacePanel(tagToReplace)
+                        let tagToReplace = $(this);
+                        replacePanel(tagToReplace);
                         tagToReplace.replaceWith(self.render(tagsTemplate, tagToReplace));
                     })
+
                 }
                 replacePanel(self.holder)
             })
         },
         render: function (template, element) {
-            var result = template.replace(/{{([a-zA-Z]+)}}/g, function (attr, template) {
+            let result = template.replace(/{{([a-zA-Z]+)}}/g, function (attr, template) {
                 if (template === 'html') {
                     return element.html();
                 } else {
@@ -42,7 +42,7 @@ function initTemplate() {
             });
             return result;
         }
-    }
+    };
     $.fn.templater = function(opt) {
         this.each(function() {
             new Templater($.extend(opt, {

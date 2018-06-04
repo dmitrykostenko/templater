@@ -17,29 +17,30 @@
 </script>
 
 <div id="mocha"></div>
-
-<section id="templates">
+<div id="templates">
+    
     <panel heading="Outer Panel">
         <div>Some outer content</div>
-        <panel heading="Inner Panel">
-            <div>Some Inner content</div>
+        <panel heading="panelllll">
+            <div>Some outer content</div>
         </panel>
     </panel>
-</section>
+</div>
 
-<!--<div class="panel">
-        <div class="panel-heading">Outer Panel</div>
-        <div class="panel-body">
-            <div>Some outer content</div>
-        </div>
-</div>-->
-
-<script src="../../build/templater.min.js"></script>
+<script src="../../templater.js"></script>
 <script src="spec.js"></script>
 <script>
     //if (navigator.userAgent.indexOf('PhantomJS') === -1) {
-    mocha.run();
+    //mocha.run();
     //}
+    
+    var templater = new Templater(
+        {
+            tagsTemplate: {
+                'panel': '<div class="panel"><div class="panel-heading">{{heading}}</div><div class="panel-body">{{html}}</div></div>'
+            }
+        }
+    );
 </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 var gulp = require('gulp'),
     mochaPhantomJS = require('gulp-mocha-phantomjs'),
-    uglify = require('gulp-uglify'),
+    uglify = require('gulp-uglify-es').default,
     sourcemaps = require('gulp-sourcemaps'),
     rename = require('gulp-rename'),
     amountOfStages = 10;
@@ -22,13 +22,8 @@ var path = {
     },
     src: {
         js: 'src/templater.js',
-    },
-    production: {
-        production: 'production'
     }
 };
-
-/* build js*/
 
 gulp.task('js', function () {
     gulp.src(path.src.js)
@@ -37,40 +32,9 @@ gulp.task('js', function () {
         .pipe(rename({suffix: '.min'}))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(path.build.js))
-        //.pipe(browserSync.stream());
 });
-
-/* task */
 
 gulp.task('build', ['js']);
-
-/* production */
-
-gulp.task('production', ['sassProduction', 'cleanProduction'], function() {
-    gulp.src(['./**/*',
-        '!src/**/*',
-        '!src/',
-        '!bower/',
-        '!bower/**/*',
-        '!node_modules/**/*',
-        '!node_modules/',
-        '!build/**.map',
-        '!.bowerrc',
-        '!bower.json',
-        '!.gitignore',
-        '!gulpfile.js',
-        '!LICENSE',
-        '!package.json',
-        '!production',
-        '!README.md'
-    ])
-        .pipe(gulp.dest('production'));
-});
-
-gulp.task('cleanProduction', function() {
-    return gulp.src('production', { read: false })
-        .pipe(rimraf());
-});
 
 gulp.task('default', ['js']);
 
