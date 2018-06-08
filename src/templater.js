@@ -27,7 +27,6 @@ function initTemplate() {
                         replacePanel(tagToReplace);
                         tagToReplace.replaceWith(self.render(tagsTemplate, tagToReplace));
                     })
-
                 }
                 replacePanel(self.holder)
             })

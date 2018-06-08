@@ -1,48 +1,30 @@
 function Templater(opt) {
     this.options = opt;
+    this.holder = opt.holder;
     this.run();
 }
 
 Templater.prototype = {
-    run: function () {
+    run: function() {
+        let self = this;
 
-        let object = this.options.tagsTemplate;
+        for (let tag in this.options.tagsTemplate) {
+            let tagsTemplate = this.options.tagsTemplate[tag];
 
-        for (let tagName in object) {
-            let customTags = Array.from(document.getElementsByTagName(tagName));
-            console.log(customTags);
-            customTags.map((item) => {
-                item.outerHTML = this.render(object[tagName], item);
-            });
+            function replacePanel(container) {
+                let tagToReplace = container.querySelector(tag);
+                if (tagToReplace) {
+                    let parent = tagToReplace.parentNode;
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = self.render(tagsTemplate, tagToReplace);
+                    parent.replaceChild(tempDiv.childNodes[0],tagToReplace);
+                    replacePanel(self.holder);
+                }
+            }
+            replacePanel(this.holder);
         }
-
-        //let object = this.options.tagsTemplate;
-
-        // Object.keys(object).map(function(tag, tagsTemplate) {
-        //     function replacePanel() {
-        //         let tags = document.getElementsByTagName(tag);
-        //         console.log(tags)
-        //         for (var i = 0; i < tags.length; i++) {
-        //             let tagToReplace = tags[i];
-        //             replacePanel(tagToReplace);
-        //             tagToReplace.replaceWith(self.render(tagsTemplate, tagToReplace));
-        //         }
-        //     }
-        //     replacePanel(self.holder)
-        // });
-
-        // $.each(this.options.tagsTemplate, function(tag, tagsTemplate) {
-        //     function replacePanel(container) {
-        //         let tags = container.find('>' + tag);
-        //         tags.each(function(){
-        //             let tagToReplace = $(this);
-        //             replacePanel(tagToReplace);
-        //             tagToReplace.replaceWith(self.render(tagsTemplate, tagToReplace));
-        //         })
-        //     }
-        //     replacePanel(self.holder)
-        // })
     },
+
     render: function (template, element) {
         let result = template.replace(/{{([a-zA-Z]+)}}/g, function (attr, template) {
             if (template === 'html') {
