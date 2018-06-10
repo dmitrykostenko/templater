@@ -20,18 +20,18 @@
             </panel>
         </panel>
     </div>
-    <script src="templater.js"></script>
+    <script src="templater.jquery.js"></script>
     <script>
-        let block = document.getElementById('templates');
-        if (block) {
-            new Templater({
-                holder: block,
-                templates: {
-                    'panel': '<div class="panel"><customBtn></customBtn><div class="panel-heading">{{heading}}</div><div class="panel-body">{{html}}</div></div>',
-                    'customBtn': '<a href="#">Link</a>'
-                }
-            });
-        }
+        // let block = document.getElementById('templates');
+        // if (block) {
+        //     new Templater({
+        //         holder: block,
+        //         templates: {
+        //             'panel': '<div class="panel"><customBtn></customBtn><div class="panel-heading">{{heading}}</div><div class="panel-body">{{html}}</div></div>',
+        //             'customBtn': '<a href="#">Link</a>'
+        //         }
+        //     });
+        // }
     </script>
 </body>
 </html>
