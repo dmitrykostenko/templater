@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Templater</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div id="templates">
+        <panel heading="Outer Panel">
+            <div>Some outer content</div>
+            <panel heading="panel">
+                <div>Some outer content</div>
+            </panel>
+            <panel heading="Outer Panel">
+                <div>Some outer content</div>
+                <panel heading="panel">
+                    <div>Some outer content</div>
+                </panel>
+            </panel>
+        </panel>
+    </div>
+    <script src="templater.js"></script>
+    <script>
+        let block = document.getElementById('templates');
+        new Templater({
+            holder: block,
+            templates: {
+                'panel': '<div class="panel"><customBtn></customBtn><div class="panel-heading">{{heading}}</div><div class="panel-body">{{html}}</div></div>',
+                'customBtn': '<a href="#">Link</a>'
+            }
+        });
+    </script>
+</body>
+</html>
