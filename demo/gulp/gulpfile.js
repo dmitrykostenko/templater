@@ -11,7 +11,7 @@ gulp.task('template-build', function() {
             }
         }))
         .pipe(rename({suffix: '-build'}))
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest(''));
 });
 
 gulp.task('default', ['template-build']);
