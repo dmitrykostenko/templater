@@ -1,52 +1,55 @@
-$(function() {
-    initTemplate();
-});
+(function (VDOM) {
+    'use strict';
 
-function initTemplate() {
-    $('#templates').templater({
-        tagsTemplate: {
-            'panel': '<div class="panel"><div class="panel-heading">{{heading}}</div><div class="panel-body">{{html}}</div></div>'
+   class Templater {
+        constructor(opt, dom = document) {
+            this.templates = opt.templates;
+
+            this.run(dom);
         }
-    });
-}
 
-;(function($) {
-    function Templater(opt) {
-        this.options = opt;
-        this.holder = $(opt.holder);
-        this.run();
-    }
-    Templater.prototype = {
-        run: function() {
-            let self = this;
-            $.each(this.options.tagsTemplate, function(tag, tagsTemplate) {
-                function replacePanel(container) {
-                    let tags = container.find('>' + tag);
-                    tags.each(function(){
-                        let tagToReplace = $(this);
-                        replacePanel(tagToReplace);
-                        tagToReplace.replaceWith(self.render(tagsTemplate, tagToReplace));
-                    })
-                }
-                replacePanel(self.holder)
-            })
-        },
-        render: function (template, element) {
-            let result = template.replace(/{{([a-zA-Z]+)}}/g, function (attr, template) {
-                if (template === 'html') {
-                    return element.html();
+       run(dom) {
+            let customTags = Object.keys(this.templates).join(',');
+            for (let tag in this.templates) {
+                const template = this.templates[tag];
+                const elements = Array.from(dom.getElementsByTagName(tag));
+
+                elements.forEach((element) => {
+                    this.replace(element, template)
+                })
+            }
+            this.isDocumentHasCustomTags(customTags, dom);
+        }
+
+        isDocumentHasCustomTags(customTags,dom) {
+            if (dom.querySelectorAll(customTags).length) {
+                this.run(dom);
+            }
+        }
+
+        replace(element, template) {
+            element.outerHTML = this.render(template, element);
+        }
+
+        render(template, element) {
+            return template.replace(/{{([a-zA-Z]+)}}/g, (template, attr) => {
+                if (attr === 'html') {
+                    return element.innerHTML;
                 } else {
-                    return element.attr(template);
+                    return element.getAttribute(attr);
                 }
             });
-            return result;
         }
-    };
-    $.fn.templater = function(opt) {
-        this.each(function() {
-            new Templater($.extend(opt, {
-                holder: this
-            }))
-        });
-    };
-})(jQuery);
+    }
+
+
+    if (typeof window !== 'undefined') {
+        window.Templater = Templater;
+    }
+    if (typeof module !== 'undefined' && module.exports) {
+        exports = module.exports = Templater;
+    }
+    if (typeof exports !== 'undefined') {
+        exports.Templater = Templater;
+    }
+})();
