@@ -1,4 +1,4 @@
-(function (VDOM) {
+(() => {
     'use strict';
 
    class Templater {
@@ -9,7 +9,6 @@
         }
 
        run(dom) {
-            let customTags = Object.keys(this.templates).join(',');
             for (let tag in this.templates) {
                 const template = this.templates[tag];
                 const elements = Array.from(dom.getElementsByTagName(tag));
@@ -18,13 +17,17 @@
                     this.replace(element, template)
                 })
             }
-            this.isDocumentHasCustomTags(customTags, dom);
-        }
-
-        isDocumentHasCustomTags(customTags,dom) {
-            if (dom.querySelectorAll(customTags).length) {
+            if(this.isDocumentHasCustomTags(dom)) {
                 this.run(dom);
             }
+        }
+
+        isDocumentHasCustomTags(dom) {
+            let customTags = Object.keys(this.templates).join(',');
+            if (dom.querySelectorAll(customTags).length) {
+                return true;
+            }
+            return false;
         }
 
         replace(element, template) {
@@ -42,14 +45,11 @@
         }
     }
 
-
     if (typeof window !== 'undefined') {
         window.Templater = Templater;
     }
-    if (typeof module !== 'undefined' && module.exports) {
-        exports = module.exports = Templater;
-    }
-    if (typeof exports !== 'undefined') {
-        exports.Templater = Templater;
+
+    if (typeof module !== 'undefined') {
+        module.exports = Templater;
     }
 })();

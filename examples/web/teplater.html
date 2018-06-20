@@ -1,9 +1,8 @@
 <html>
 <head>
-    <title>Templater.jquery</title>
+    <title>Templater</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
     <div id="templates">
@@ -20,10 +19,9 @@
             </panel>
         </panel>
     </div>
-    <script src="templater.jquery.js"></script>
-    <script src="templater.js"></script>
+    <script src="../../src/templater.js"></script>
     <script>
-        $(document).templater({
+        new Templater({
             templates: {
                 'panel': '<div class="panel"><customBtn></customBtn><div class="panel-heading">{{heading}}</div><div class="panel-body">{{html}}</div></div>',
                 'customBtn': '<a href="#">Link</a>'
